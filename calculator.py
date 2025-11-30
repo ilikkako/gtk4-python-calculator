@@ -1,8 +1,7 @@
-""" This is where project description comes. Right now I am testing how to commit changes through visual code.
-This is a branchin test."""
+""" Calculator for GNOME. Programmed as a practice project."""
 
 import sys, gi, re
-gi.require_version('Gtk', '4.0')
+ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw
 
