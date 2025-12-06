@@ -75,7 +75,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
         # Change operator if there is no number
         try:
-            if screen[-1] not in operators and button in operators:
+            if screen[-1] in operators and button in operators:
                 screen = screen[:-1]
         except:
             pass
