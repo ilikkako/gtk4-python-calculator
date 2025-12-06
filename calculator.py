@@ -5,8 +5,11 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw
 
-buttons = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.', '+', '-', '*', '/', '=', 'C', '(', ')', '<<<')
+# buttons = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.', '+', '-', '*', '/', '=', 'C', '(', ')', '<<<')
+numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 operators = ('+', '-', '*', '/')
+others = ('=', 'C', '(', ')', '<<<')
+buttons = numbers + operators + others
 screen = "" # Stores values in calculator screen
 
 class MainWindow(Gtk.ApplicationWindow):
@@ -72,11 +75,22 @@ class MainWindow(Gtk.ApplicationWindow):
 
         # Change operator if there is no number
         try:
-            if screen[-1] in operators and button in operators:
+            if screen[-1] not in operators and button in operators:
                 screen = screen[:-1]
         except:
             pass
 
+        # Remove first operator if it is not minus or paranthesis
+        try:
+            if screen[0] not in str(numbers):
+                if screen[0] == '-':
+                    pass
+                elif screen[0] == '(':
+                    pass
+                else:
+                    screen = screen[1:] 
+        except:
+            pass
 
         if button == '=': # Solve the expression
             for c in screen:
