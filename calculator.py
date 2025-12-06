@@ -37,7 +37,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.MainBox.append(self.ScreenFrame)
         self.MainBox.append(self.Grid)
 
-        self.Label1 = Gtk.Label(label='This is where the number screen will be!')
+        self.Label1 = Gtk.Label()
         self.ScreenFrame.set_child(self.Label1)
 
         # Arrange and attach buttons to the grid!
