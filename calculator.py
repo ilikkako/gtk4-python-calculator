@@ -7,7 +7,7 @@ from gi.repository import Gtk, Adw
 
 # buttons = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.', '+', '-', '*', '/', '=', 'C', '(', ')', '<<<')
 numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-operators = ('+', '-', '*', '/')
+operators = ('+', '-', 'x', '/')
 others = ('=', 'C', '(', ')', '<<<', '.')
 buttons = numbers + operators + others
 screen = "" # Stores values in calculator screen
@@ -49,7 +49,7 @@ class MainWindow(Gtk.ApplicationWindow):
                 margin_top = margin_buttons,
                 margin_bottom = margin_buttons,
                 margin_start =  margin_buttons,
-                margin_end = margin_buttons 
+                margin_end = margin_buttons
                 )
             try:
                 if button >= 1 and button <=3:
@@ -67,7 +67,7 @@ class MainWindow(Gtk.ApplicationWindow):
                     self.Grid.attach(self.button,3,1,1,1)
                 elif button == '-':
                     self.Grid.attach(self.button,3,2,1,1)
-                elif button == '*':
+                elif button == 'x':
                     self.Grid.attach(self.button,3,3,1,1)
                 elif button == '/':
                     self.Grid.attach(self.button,2,4,1,1)
@@ -116,6 +116,7 @@ class MainWindow(Gtk.ApplicationWindow):
                 elif c[0] == '0':
                     screen = screen[1:]
             try:
+                screen = screen.replace('x', '*')
                 screen = eval(screen)
             except Exception as e:
                 screen = 'ERROR!'
