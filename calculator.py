@@ -8,7 +8,7 @@ from gi.repository import Gtk, Adw
 # buttons = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.', '+', '-', '*', '/', '=', 'C', '(', ')', '<<<')
 numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 operators = ('+', '-', '*', '/')
-others = ('=', 'C', '(', ')', '<<<')
+others = ('=', 'C', '(', ')', '<<<', '.')
 buttons = numbers + operators + others
 screen = "" # Stores values in calculator screen
 margin_all = 10
@@ -130,8 +130,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.update_screen(screen)
     
     def update_screen(self, text):
-        self.Label1.set_text = text
-        print(text)
+        self.Label1.set_text(text)
 
 
 class AppCalculator(Adw.Application):
