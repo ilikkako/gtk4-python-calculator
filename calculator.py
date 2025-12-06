@@ -15,25 +15,25 @@ screen = "" # Stores values in calculator screen
 class MainWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.set_default_size(600,600)
+        self.set_default_size(400,500)
         self.set_title('Calculator')
         self.arrange_calculator_gui()
 
     def arrange_calculator_gui(self):
 
         self.MainBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.HorizontalBox1 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        self.Grid = Gtk.Grid()
+        self.ScreenBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, hexpand = True, vexpand = True)
+        self.Grid = Gtk.Grid(hexpand = True, vexpand = True)
         self.set_child(self.MainBox)
-        self.MainBox.append(self.HorizontalBox1)
+        self.MainBox.append(self.ScreenBox)
         self.MainBox.append(self.Grid)
 
         self.Label1 = Gtk.Label(label='This is where the number screen will be!')
-        self.HorizontalBox1.append(self.Label1)
+        self.ScreenBox.append(self.Label1)
 
         # Arrange and attach buttons to the grid!
         for button in buttons:
-            self.button = Gtk.Button(label=str(button))
+            self.button = Gtk.Button(label=str(button), hexpand = True, vexpand = True)
             try:
                 if button >= 1 and button <=3:
                     self.Grid.attach(self.button,button-1,1,1,1)   
