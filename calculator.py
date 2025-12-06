@@ -1,18 +1,22 @@
 """ Calculator for GNOME. Programmed as a practice project."""
 
 import sys, gi, re
- gi.require_version('Gtk', '4.0')
+gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw
 
-buttons = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.', '+', '-', '*', '/', '=', 'C', '<<<')
-screen = "" # Stores values in calculator screne
+buttons = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.', '+', '-', '*', '/', '=', 'C', '(', ')', '<<<')
+operators = ('+', '-', '*', '/')
+screen = "" # Stores values in calculator screen
 
 class MainWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.set_default_size(600,600)
         self.set_title('Calculator')
+        self.arrange_calculator_gui()
+
+    def arrange_calculator_gui(self):
 
         self.MainBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.HorizontalBox1 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
@@ -25,43 +29,56 @@ class MainWindow(Gtk.ApplicationWindow):
         self.HorizontalBox1.append(self.Label1)
 
         # Arrange and attach buttons to the grid!
-        for but in buttons:
-            self.button = Gtk.Button(label=str(but))
+        for button in buttons:
+            self.button = Gtk.Button(label=str(button))
             try:
-                if but >= 1 and but <=3:
-                    self.Grid.attach(self.button,but-1,1,1,1)   
-                elif but >= 4 and but <= 6:
-                    self.Grid.attach(self.button,but-4,2,1,1)  
-                elif but >= 7:
-                    self.Grid.attach(self.button,but-7,3,1,1) 
+                if button >= 1 and button <=3:
+                    self.Grid.attach(self.button,button-1,1,1,1)   
+                elif button >= 4 and button <= 6:
+                    self.Grid.attach(self.button,button-4,2,1,1)  
+                elif button >= 7:
+                    self.Grid.attach(self.button,button-7,3,1,1) 
                 else:
                     self.Grid.attach(self.button,0,4,1,1)
             except:
-                if but == '.':
+                if button == '.':
                     self.Grid.attach(self.button,1,4,1,1)
-                elif but == '+':
-                    self.Grid.attach(self.button,4,1,1,1)
-                elif but == '-':
-                    self.Grid.attach(self.button,4,2,1,1)
-                elif but == '*':
-                    self.Grid.attach(self.button,4,3,1,1)
-                elif but == '/':
+                elif button == '+':
+                    self.Grid.attach(self.button,3,1,1,1)
+                elif button == '-':
+                    self.Grid.attach(self.button,3,2,1,1)
+                elif button == '*':
+                    self.Grid.attach(self.button,3,3,1,1)
+                elif button == '/':
                     self.Grid.attach(self.button,2,4,1,1)
-                elif but == '=':
-                    self.Grid.attach(self.button,4,4,1,1)
-                elif but == 'C':
+                elif button == '=':
+                    self.Grid.attach(self.button,3,4,1,1)
+                elif button == 'C':
                     self.Grid.attach(self.button,0,0,1,1)
-                elif but == '<<<':
-                    self.Grid.attach(self.button,1,0,4,1)
+                elif button == '<<<':
+                    self.Grid.attach(self.button,3,0,1,1)
+                elif button == '(':
+                    self.Grid.attach(self.button,1,0,1,1)
+                elif button == ')':
+                    self.Grid.attach(self.button,2,0,1,1)
 
             #Connect buttons to function
-            self.button.connect('clicked', self.manage_buttons, but)
+            self.button.connect('clicked', self.manage_buttons, button)
         
-    def manage_buttons(self, button, num):
+    def manage_buttons(self, num, button):
         global screen
         if screen == 'ERROR!':
             screen = ''
-        if num == '=':
+
+        # Change operator if there is no number
+        try:
+            if screen[-1] in operators and button in operators:
+                screen = screen[:-1]
+        except:
+            pass
+
+
+        if button == '=': # Solve the expression
             for c in screen:
                 if c[0] == '0.':
                     pass
@@ -73,12 +90,12 @@ class MainWindow(Gtk.ApplicationWindow):
                 screen = 'ERROR!'
                 print(e)
             screen = str(screen)
-        elif num == 'C':
+        elif button == 'C': # Erase the whole expression
             screen = ''
-        elif num == '<<<':
+        elif button == '<<<': # Erase a character
             screen = screen[:-1]
-        else:
-            screen = screen + str(num)
+        else: # Add number or operator to the expression
+            screen = screen + str(button)
         self.update_screen(screen)
     
     def update_screen(self, text):
