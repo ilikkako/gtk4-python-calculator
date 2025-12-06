@@ -70,9 +70,9 @@ class MainWindow(Gtk.ApplicationWindow):
                 elif button == '*':
                     self.Grid.attach(self.button,3,3,1,1)
                 elif button == '/':
-                    self.Grid.attach(self.button,2,4,1,1)
+                    self.Grid.attach(self.button,1,4,1,1)
                 elif button == '=':
-                    self.Grid.attach(self.button,3,4,1,1)
+                    self.Grid.attach(self.button,2,4,2,1)
                 elif button == 'C':
                     self.Grid.attach(self.button,0,0,1,1)
                 elif button == '<<<':
