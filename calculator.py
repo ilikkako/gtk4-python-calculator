@@ -1,4 +1,4 @@
-""" Calculator for GNOME. Programmed as a practice project."""
+""" Basic calculator for GNOME. Programmed as a practice project."""
 
 import sys, gi, re
 gi.require_version('Gtk', '4.0')
