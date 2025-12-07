@@ -112,8 +112,8 @@ class MainWindow(Gtk.ApplicationWindow):
         if button == '=': # Solve the expression
             try:
                 screen = screen.replace('x', '*')
-                print(screen)
                 screen = eval(screen)
+                screen = round(screen, 6)
             except Exception as e:
                 screen = 'ERROR!'
                 print(e)
