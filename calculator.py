@@ -18,72 +18,72 @@ margin_frame = 5
 class MainWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.set_default_size(400,500)
-        self.set_title('Calculator')
-        self.arrange_calculator_gui()
+        # self.set_default_size(400,500)
+        # self.set_title('Calculator')
+        # self.arrange_calculator_gui()
 
-    def arrange_calculator_gui(self):
+    # def arrange_calculator_gui(self):
 
-        self.MainBox = Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL,
-            margin_top = margin_all,
-            margin_bottom = margin_all,
-            margin_start =  margin_all,
-            margin_end = margin_all 
-            )
-        self.ScreenFrame = Gtk.Frame(hexpand = True, vexpand = True, margin_bottom = margin_frame)
-        self.Grid = Gtk.Grid(hexpand = True, vexpand = True)
-        self.set_child(self.MainBox)
-        self.MainBox.append(self.ScreenFrame)
-        self.MainBox.append(self.Grid)
+    #     self.MainBox = Gtk.Box(
+    #         orientation=Gtk.Orientation.VERTICAL,
+    #         margin_top = margin_all,
+    #         margin_bottom = margin_all,
+    #         margin_start =  margin_all,
+    #         margin_end = margin_all 
+    #         )
+    #     self.ScreenFrame = Gtk.Frame(hexpand = True, vexpand = True, margin_bottom = margin_frame)
+    #     self.Grid = Gtk.Grid(hexpand = True, vexpand = True)
+    #     self.set_child(self.MainBox)
+    #     self.MainBox.append(self.ScreenFrame)
+    #     self.MainBox.append(self.Grid)
 
-        self.Label1 = Gtk.Label()
-        self.ScreenFrame.set_child(self.Label1)
+    #     self.Label1 = Gtk.Label()
+    #     self.ScreenFrame.set_child(self.Label1)
 
-        # Arrange and attach buttons to the grid!
-        for button in buttons:
-            self.button = Gtk.Button(
-                label=str(button), 
-                hexpand = True, 
-                vexpand = True,
-                margin_top = margin_buttons,
-                margin_bottom = margin_buttons,
-                margin_start =  margin_buttons,
-                margin_end = margin_buttons
-                )
-            try:
-                if button >= 1 and button <=3:
-                    self.Grid.attach(self.button,button-1,1,1,1)   
-                elif button >= 4 and button <= 6:
-                    self.Grid.attach(self.button,button-4,2,1,1)  
-                elif button >= 7:
-                    self.Grid.attach(self.button,button-7,3,1,1) 
-                else:
-                    self.Grid.attach(self.button,0,4,1,1)
-            except:
-                if button == '.':
-                    self.Grid.attach(self.button,1,4,1,1)
-                elif button == '+':
-                    self.Grid.attach(self.button,3,1,1,1)
-                elif button == '-':
-                    self.Grid.attach(self.button,3,2,1,1)
-                elif button == 'x':
-                    self.Grid.attach(self.button,3,3,1,1)
-                elif button == '/':
-                    self.Grid.attach(self.button,2,4,1,1)
-                elif button == '=':
-                    self.Grid.attach(self.button,3,4,1,1)
-                elif button == 'C':
-                    self.Grid.attach(self.button,0,0,1,1)
-                elif button == '<<<':
-                    self.Grid.attach(self.button,3,0,1,1)
-                elif button == '(':
-                    self.Grid.attach(self.button,1,0,1,1)
-                elif button == ')':
-                    self.Grid.attach(self.button,2,0,1,1)
+    #     # Arrange and attach buttons to the grid!
+    #     for button in buttons:
+    #         self.button = Gtk.Button(
+    #             label=str(button), 
+    #             hexpand = True, 
+    #             vexpand = True,
+    #             margin_top = margin_buttons,
+    #             margin_bottom = margin_buttons,
+    #             margin_start =  margin_buttons,
+    #             margin_end = margin_buttons
+    #             )
+    #         try:
+    #             if button >= 1 and button <=3:
+    #                 self.Grid.attach(self.button,button-1,1,1,1)   
+    #             elif button >= 4 and button <= 6:
+    #                 self.Grid.attach(self.button,button-4,2,1,1)  
+    #             elif button >= 7:
+    #                 self.Grid.attach(self.button,button-7,3,1,1) 
+    #             else:
+    #                 self.Grid.attach(self.button,0,4,1,1)
+    #         except:
+    #             if button == '.':
+    #                 self.Grid.attach(self.button,1,4,1,1)
+    #             elif button == '+':
+    #                 self.Grid.attach(self.button,3,1,1,1)
+    #             elif button == '-':
+    #                 self.Grid.attach(self.button,3,2,1,1)
+    #             elif button == 'x':
+    #                 self.Grid.attach(self.button,3,3,1,1)
+    #             elif button == '/':
+    #                 self.Grid.attach(self.button,2,4,1,1)
+    #             elif button == '=':
+    #                 self.Grid.attach(self.button,3,4,1,1)
+    #             elif button == 'C':
+    #                 self.Grid.attach(self.button,0,0,1,1)
+    #             elif button == '<<<':
+    #                 self.Grid.attach(self.button,3,0,1,1)
+    #             elif button == '(':
+    #                 self.Grid.attach(self.button,1,0,1,1)
+    #             elif button == ')':
+    #                 self.Grid.attach(self.button,2,0,1,1)
 
-            #Connect buttons to function
-            self.button.connect('clicked', self.manage_buttons, button)
+    #         #Connect buttons to function
+    #         self.button.connect('clicked', self.manage_buttons, button)
         
     def manage_buttons(self, num, button):
         global screen
@@ -136,8 +136,15 @@ class AppCalculator(Adw.Application):
         self.connect('activate', self.on_activate)
 
     def on_activate(self, app):
-        self.win = MainWindow(application=app)
+        # Create UI from XML file
+        builder = Gtk.Builder()
+        builder.new_from_file('calculator.ui')
+
+        # Obtain and show main window 
+        self.win = builder.get_object('main_window')
+        self.win.set_application(self)
         self.win.present()
+
 
 
 app = AppCalculator(application_id="com.github.ilkkako.gtk4-python-calculator")
