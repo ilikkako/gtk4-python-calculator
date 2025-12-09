@@ -5,7 +5,6 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw
 
-# buttons = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.', '+', '-', '*', '/', '=', 'C', '(', ')', '<<<')
 numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 operators = ('+', '-', 'x', '/')
 others = ('=', 'C', '(', ')', '<<<', '.')
@@ -28,6 +27,16 @@ class MainWindow(Gtk.ApplicationWindow):
     def update_display(self, content):
         self.display.set_text(content)
     
+    def solve(self, expression):
+        try:
+            new_expression = expression.replace('x', '*') # Fix multiply symbol so eval function can solve the problem 
+            solution = eval(new_expression)
+            solution = round(solution, 6) # Round to avoid rounding error
+        except Exception as e:
+            print(e)
+            return 'ERROR!'
+
+        return str(solution)
 
     @Gtk.Template.Callback()
     def on_button_clicked(self, button):
@@ -57,14 +66,7 @@ class MainWindow(Gtk.ApplicationWindow):
             pass
 
         if input == '=': # Solve the expression
-            try:
-                screen = screen.replace('x', '*')
-                screen = eval(screen)
-                screen = round(screen, 6)
-            except Exception as e:
-                screen = 'ERROR!'
-                print(e)
-            screen = str(screen)
+            screen = self.solve(screen)
         elif input == 'C': # Erase the whole expression
             screen = ''
         elif input == '<<': # Erase a character
