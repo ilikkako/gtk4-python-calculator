@@ -24,14 +24,55 @@ class MainWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
+
+    def update_display(self, content):
+        self.display.set_text(content)
+    
+
     @Gtk.Template.Callback()
     def on_button_clicked(self, button):
         input = button.get_label()
-        self.update_display(input)
-    
-    def update_display(self, content):
-        self.display.set_text(content)
 
+        global screen
+        if screen == 'ERROR!':
+            screen = ''
+
+        # Change operator if there is no number
+        try:
+            if screen[-1] in operators and input in operators:
+                screen = screen[:-1]
+        except:
+            pass
+
+        # Remove first operator if it is not minus or paranthesis
+        try:
+            if screen[0] not in str(numbers):
+                if screen[0] == '-':
+                    pass
+                elif screen[0] == '(':
+                    pass
+                else:
+                    screen = screen[1:] 
+        except:
+            pass
+
+        if input == '=': # Solve the expression
+            try:
+                screen = screen.replace('x', '*')
+                screen = eval(screen)
+                screen = round(screen, 6)
+            except Exception as e:
+                screen = 'ERROR!'
+                print(e)
+            screen = str(screen)
+        elif input == 'C': # Erase the whole expression
+            screen = ''
+        elif input == '<<<': # Erase a character
+            screen = screen[:-1]
+        else: # Add number or operator to the expression
+            screen = screen + str(input)
+        
+        self.update_display(screen)
 
 
 class AppCalculator(Adw.Application):
@@ -43,51 +84,6 @@ class AppCalculator(Adw.Application):
     def on_activate(self, app):
         window = MainWindow(application=self)
         window.present()
-
-    # def on_button_clicked(self, object, data=None):
-    #     global screen
-    #     if screen == 'ERROR!':
-    #         screen = ''
-
-    #     # Change operator if there is no number
-    #     try:
-    #         if screen[-1] in operators and button in operators:
-    #             screen = screen[:-1]
-    #     except:
-    #         pass
-
-    #     # Remove first operator if it is not minus or paranthesis
-    #     try:
-    #         if screen[0] not in str(numbers):
-    #             if screen[0] == '-':
-    #                 pass
-    #             elif screen[0] == '(':
-    #                 pass
-    #             else:
-    #                 screen = screen[1:] 
-    #     except:
-    #         pass
-
-    #     if button == '=': # Solve the expression
-    #         try:
-    #             screen = screen.replace('x', '*')
-    #             screen = eval(screen)
-    #             screen = round(screen, 6)
-    #         except Exception as e:
-    #             screen = 'ERROR!'
-    #             print(e)
-    #         screen = str(screen)
-    #     elif button == 'C': # Erase the whole expression
-    #         screen = ''
-    #     elif button == '<<<': # Erase a character
-    #         screen = screen[:-1]
-    #     else: # Add number or operator to the expression
-    #         screen = screen + str(button)
-    #     self.update_screen(screen)
-    
-
-    def update_screen(self, text):
-        self.Label1.set_text(text)
 
 
 app = AppCalculator(application_id="com.github.ilkkako.gtk4-python-calculator")
