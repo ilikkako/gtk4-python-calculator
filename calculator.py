@@ -20,13 +20,13 @@ margin_frame = 5
 class MainWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "main_window"
 
-    button_1 = Gtk.Template.Child()
+    # button_1 = Gtk.Template.Child()
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
-    Gtk.Template.Callback()
-    def on_button_clicked(self, button, userdata):
+    @Gtk.Template.Callback()
+    def on_button_clicked(self, button):
         print('button pressed')
         
 
