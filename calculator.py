@@ -18,16 +18,16 @@ margin_frame = 5
 
 @Gtk.Template(filename="calculator.ui")
 class MainWindow(Gtk.ApplicationWindow):
-    __gtype_name__ = "MainWindow"
-    on_button_clicked = Gtk.Template.Child()
+    __gtype_name__ = "main_window"
+
+    button_1 = Gtk.Template.Child()
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
     Gtk.Template.Callback()
-    def on_button_clicked(self, widget):
-        label = widget.get_label()
-        print("Pressed:", label)
+    def on_button_clicked(self, button, userdata):
+        print('button pressed')
         
 
 
@@ -38,16 +38,18 @@ class AppCalculator(Adw.Application):
 
 
     def on_activate(self, app):
-        # Create UI from XML file
-        builder = Gtk.Builder()
-        builder.add_from_file('calculator.ui')
+        # # Create UI from XML file
+        # builder = Gtk.Builder()
+        # builder.add_from_file('calculator.ui')
         # builder.connect_signals(self)
 
         # Obtain and show main window 
-        self.window = builder.get_object('main_window')
-        self.window.set_application(self)
-        self.window.present()
+        # self.window = builder.get_object('main_window')
+        # self.window.set_application(self)
+        # self.window.present()
     
+        window = MainWindow(application=self)
+        window.present()
 
     # def on_button_clicked(self, object, data=None):
     #     global screen

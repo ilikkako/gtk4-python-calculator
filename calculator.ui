@@ -6,7 +6,7 @@
   <!-- interface-authors Ilkka Kotajarvi -->
   <requires lib="gio" version="2.0"/>
   <requires lib="gtk" version="4.0"/>
-  <object class="GtkApplicationWindow" id="main_window">
+  <template class="main_window" parent="GtkApplicationWindow">
     <property name="child">
       <object class="GtkBox">
         <property name="orientation">vertical</property>
@@ -316,19 +316,9 @@
           <object class="GtkMenuButton">
             <property name="active">True</property>
             <property name="icon-name">open-menu-symbolic</property>
-            <property name="menu-model">
-              <menu>
-                <item>
-                  <attribute name="label">Light Mode</attribute>
-                </item>
-                <item>
-                  <attribute name="label">Dark Mode</attribute>
-                </item>
-              </menu>
-            </property>
           </object>
         </child>
       </object>
     </property>
-  </object>
+  </template>
 </interface>
