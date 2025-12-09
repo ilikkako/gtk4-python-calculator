@@ -3,7 +3,7 @@
 import sys, gi, re
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
-from gi.repository import Gtk, Adw, Gio
+from gi.repository import Gtk, Adw, Gdk
 
 numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 operators = ('+', '-', 'x', '/')
@@ -102,6 +102,12 @@ class AppCalculator(Adw.Application):
     def on_activate(self, app):
         window = MainWindow(application=self)
         window.present()
+
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_path('stylesheet.css')
+
+        display = Gdk.Display.get_default()
+        Gtk.StyleContext.add_provider_for_display(display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
 
 app = AppCalculator(application_id="com.github.ilkkako.gtk4-python-calculator")

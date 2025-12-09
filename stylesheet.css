@@ -1,0 +1,16 @@
+display {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+button {
+    font-size: 16px;
+}
+
+.button-c {
+    color: red;
+}
+
+.button-solve {
+    color: green;
+}

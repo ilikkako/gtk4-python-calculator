@@ -45,7 +45,8 @@
             <property name="vexpand">True</property>
             <property name="vexpand-set">True</property>
             <child>
-              <object class="GtkButton" id="button_c">
+              <object class="GtkButton" id="button-c">
+                <property name="css-classes">button-c</property>
                 <property name="hexpand">True</property>
                 <property name="label">C</property>
                 <property name="vexpand">True</property>
@@ -286,6 +287,8 @@
             </child>
             <child>
               <object class="GtkButton" id="button_solve">
+                <property name="css-classes">button-solve
+</property>
                 <property name="label">=</property>
                 <signal name="clicked" handler="on_button_clicked"/>
                 <layout>
