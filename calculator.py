@@ -67,7 +67,7 @@ class MainWindow(Gtk.ApplicationWindow):
             screen = str(screen)
         elif input == 'C': # Erase the whole expression
             screen = ''
-        elif input == '<<<': # Erase a character
+        elif input == '<<': # Erase a character
             screen = screen[:-1]
         else: # Add number or operator to the expression
             screen = screen + str(input)
