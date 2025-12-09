@@ -3,7 +3,7 @@
 import sys, gi, re
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
-from gi.repository import Gtk, Adw
+from gi.repository import Gtk, Adw, Gio
 
 numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 operators = ('+', '-', 'x', '/')
@@ -13,12 +13,14 @@ screen = "" # Stores values in calculator screen
 margin_all = 10
 margin_buttons = 1
 margin_frame = 5
+light_mode = True
 
 
 @Gtk.Template(filename="calculator.ui")
 class MainWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "main_window"
     display = Gtk.Template.Child()
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -27,6 +29,7 @@ class MainWindow(Gtk.ApplicationWindow):
     def update_display(self, content):
         self.display.set_text(content)
     
+
     def solve(self, expression):
         try:
             new_expression = expression.replace('x', '*') # Fix multiply symbol so eval function can solve the problem 
@@ -37,6 +40,19 @@ class MainWindow(Gtk.ApplicationWindow):
             return 'ERROR!'
 
         return str(solution)
+    
+
+    @Gtk.Template.Callback()
+    def switch_mode(self, button):
+        app = self.get_application()
+        sm = app.get_style_manager()
+        global light_mode
+        if light_mode:
+            sm.set_color_scheme(Adw.ColorScheme.PREFER_DARK)
+            light_mode = False
+        else:
+            sm.set_color_scheme(Adw.ColorScheme.PREFER_LIGHT)
+            light_mode = True
 
     @Gtk.Template.Callback()
     def on_button_clicked(self, button):
