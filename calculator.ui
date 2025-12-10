@@ -318,7 +318,7 @@
         <child>
           <object class="GtkButton">
             <property name="icon-name">night-light-symbolic</property>
-            <signal name="clicked" handler="switch_mode"/>
+            <signal name="clicked" handler="switch_light_mode"/>
           </object>
         </child>
       </object>
