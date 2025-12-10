@@ -1,6 +1,7 @@
 """ Basic calculator for GNOME. Programmed as a practice project."""
 
-import sys, gi, re
+import sys
+import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw, Gdk
@@ -10,9 +11,6 @@ operators = ('+', '-', 'x', '/')
 others = ('=', 'C', '(', ')', '<<<', '.')
 buttons = numbers + operators + others
 screen = "" # Stores values in calculator screen
-margin_all = 10
-margin_buttons = 1
-margin_frame = 5
 light_mode = True
 
 
