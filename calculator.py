@@ -116,11 +116,8 @@ class CalculatorEngine():
     
 
     def validate_operator(self, input):
-        try:
-            if self.expression[-1] in self.operators and input in self.operators:
-                self.erase()
-        except:
-            pass
+        if self.expression and self.expression[-1] in self.operators and input in self.operators:
+            self.erase()
 
 
 
