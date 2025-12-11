@@ -6,11 +6,6 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw, Gdk
 
-# numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-# operators = ('+', '-', 'x', '/')
-# others = ('=', 'C', '(', ')', '<<<', '.')
-# buttons = numbers + operators + others
-
 
 @Gtk.Template(filename="calculator.ui")
 class MainWindow(Gtk.ApplicationWindow):
@@ -42,37 +37,42 @@ class MainWindow(Gtk.ApplicationWindow):
     @Gtk.Template.Callback()
     def on_button_clicked(self, button):
         input = button.get_label()
+        current_expression = self.calculator.get_expression()
 
-        if self.calculator.get_expression() == 'ERROR!':
+        if current_expression == 'ERROR!':
             self.calculator.clear()
 
-        # # Change operator if there is no number
-        # try:
-        #     if screen[-1] in operators and input in operators:
-        #         screen = screen[:-1]
-        # except:
-        #     pass
+        # Add 0 automatically if inputting point in empty expression
+        if current_expression == '' and input == '.':
+            self.calculator.add_input('0')
 
-        # # Remove first operator if it is not minus or paranthesis
-        # try:
-        #     if screen[0] not in str(numbers):
-        #         if screen[0] == '-':
-        #             pass
-        #         elif screen[0] == '(':
-        #             pass
-        #         else:
-        #             screen = screen[1:] 
-        # except:
-        #     pass
 
-        if input == '=': # Solve the expression
-            self.calculator.calculate()
-        elif input == 'C': # Clear the whole expression
-            self.calculator.clear()
-        elif input == '<<': # Erase a character
-            self.calculator.erase()
-        else: # Add number or operator to the expression
-            self.calculator.add_input(input)
+        # Change operator if user tries to input two in a row
+        try:
+            if current_expression[-1] in self.calculator.operators and input in self.calculator.operators:
+                self.calculator.erase()
+        except:
+            pass
+
+        # Remove first operator if it is not minus or paranthesis
+        try:
+            if current_expression[0] not in '0123456789':
+                if current_expression[0] in '(-':
+                    pass
+                else:
+                    self.calculator.erase()
+        except:
+            pass
+
+        match input:
+            case '=':
+                self.calculator.calculate()
+            case 'C':
+                self.calculator.clear()
+            case '<<':
+                self.calculator.erase()
+            case _:
+                self.calculator.add_input(input)
         
         self.update_display(self.calculator.get_expression())
 
@@ -97,6 +97,7 @@ class Application(Adw.Application):
 class CalculatorEngine():
     def __init__(self):
         self.expression = ''
+        self.operators = ('+', '-', 'x', '/')
 
 
     def add_input(self, value):
@@ -117,8 +118,7 @@ class CalculatorEngine():
             solution = eval(new_expression)
             solution = round(solution, 6) # Round to avoid rounding error
             self.expression = str(solution)
-        except Exception as e:
-            print(e)
+        except:
             self.expression = 'ERROR!'
 
 
@@ -126,5 +126,8 @@ class CalculatorEngine():
         return self.expression
 
 
-app = Application(application_id="com.github.ilkkako.gtk4-python-calculator")
-app.run(sys.argv)
+def __main__():
+    app = Application(application_id="com.github.ilkkako.gtk4-python-calculator")
+    app.run(sys.argv)
+
+__main__()
