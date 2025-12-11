@@ -37,32 +37,11 @@ class MainWindow(Gtk.ApplicationWindow):
     @Gtk.Template.Callback()
     def on_button_clicked(self, button):
         input = button.get_label()
-        current_expression = self.calculator.get_expression()
 
-        if current_expression == 'ERROR!':
-            self.calculator.clear()
+        self.calculator.remove_error()
+        self.calculator.add_zero(input) # Add 0 automatically if inputting point in empty expression
+        self.calculator.validate_operator(input) # Change operator if user tries to input two in a row
 
-        # Add 0 automatically if inputting point in empty expression
-        if current_expression == '' and input == '.':
-            self.calculator.add_input('0')
-
-
-        # Change operator if user tries to input two in a row
-        try:
-            if current_expression[-1] in self.calculator.operators and input in self.calculator.operators:
-                self.calculator.erase()
-        except:
-            pass
-
-        # Remove first operator if it is not minus or paranthesis
-        try:
-            if current_expression[0] not in '0123456789':
-                if current_expression[0] in '(-':
-                    pass
-                else:
-                    self.calculator.erase()
-        except:
-            pass
 
         match input:
             case '=':
@@ -114,9 +93,9 @@ class CalculatorEngine():
 
     def calculate(self):
         try:
-            new_expression = self.expression.replace('x', '*') # Fix multiply symbol so eval function can solve the problem 
+            new_expression = self.expression.replace('x', '*')
             solution = eval(new_expression)
-            solution = round(solution, 6) # Round to avoid rounding error
+            solution = round(solution, 6)
             self.expression = str(solution)
         except:
             self.expression = 'ERROR!'
@@ -124,6 +103,26 @@ class CalculatorEngine():
 
     def get_expression(self):
         return self.expression
+    
+
+    def remove_error(self):
+        if self.expression  == 'ERROR!':
+            self.clear()
+    
+
+    def add_zero(self, input):
+        if self.expression == '' and input == '.':
+            self.add_input('0')
+    
+
+    def validate_operator(self, input):
+        try:
+            if self.expression[-1] in self.operators and input in self.operators:
+                self.erase()
+        except:
+            pass
+
+
 
 
 def __main__():
