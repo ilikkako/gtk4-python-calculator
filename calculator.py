@@ -124,9 +124,6 @@ class CalculatorEngine():
 
 
 
-
-def __main__():
+if __name__ == '__main__':
     app = Application(application_id="com.github.ilkkako.gtk4-python-calculator")
     app.run(sys.argv)
-
-__main__()
