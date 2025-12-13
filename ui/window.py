@@ -2,10 +2,10 @@ import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw
+from calculator import calculator
 
-import calculator
 
-@Gtk.Template(filename="calculator.ui")
+@Gtk.Template(filename="ui/calculator.ui")
 class MainWindow(Gtk.ApplicationWindow):
     __gtype_name__ = "main_window"
     display = Gtk.Template.Child()
