@@ -1,3 +1,5 @@
+import re
+
 class CalculatorEngine():
     def __init__(self):
         self.expression = ''
@@ -15,6 +17,10 @@ class CalculatorEngine():
     def erase(self): 
         self.expression = self.expression[:-1]
 
+
+    def parse_expression(self):
+        expression = self.get_expression
+        split_expression = expression.re.split()
 
     def calculate(self):
         try:
