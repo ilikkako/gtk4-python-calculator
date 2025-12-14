@@ -1,2 +1,5 @@
 ignore/
+__pycache__/*.pyc
+calculator/__pycache__/*.pyc
+ui/__pycache__/*.pyc
 *.pyc
